@@ -1,0 +1,13 @@
+{
+    "env": {
+        "development": {
+            "apiBase": "http://localhost/"
+        },
+        "production": {
+            "apiBase": ""
+        },
+        "test": {
+            "apiBase": ""
+        }
+    }
+}
