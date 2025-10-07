@@ -1,0 +1,87 @@
+import { describe, expect, test, expectTypeOf, vi, afterEach } from 'vitest'
+import engine from '../../../src/engine'
+import '../../../src/engineControllers'
+
+describe('countdown', () => {
+
+    /* let vertex = new Vertex();
+
+    beforeEach(() => {
+        vertex = new Vertex();
+    }) */
+
+    // Use fake timers to control the "current" time
+    vi.useFakeTimers();
+
+    // Clean up all timers after each test to ensure a fresh state
+    afterEach(() => {
+        vi.clearAllTimers();
+    });
+
+    test('should call the onUpdate callback at the correct intervals', () => {
+        const onUpdateMock = vi.fn();
+        const targetTime = new Date().getTime() + 3000; // 3 seconds from now
+
+        engine.controllers.countdown.startCountdown(targetTime, onUpdateMock, vi.fn());
+
+        // Advance time by 1 second. The onUpdate callback should be called once.
+        vi.advanceTimersByTime(1000);
+        expect(onUpdateMock).toHaveBeenCalledTimes(1);
+
+        // Advance time by another 1 second. The onUpdate callback should be called a second time.
+        vi.advanceTimersByTime(1000);
+        expect(onUpdateMock).toHaveBeenCalledTimes(2);
+
+        // Advance time by one more second to reach the end.
+        vi.advanceTimersByTime(1000);
+        expect(onUpdateMock).toHaveBeenCalledTimes(3);
+    });
+
+    test('should call the onComplete callback when the countdown is finished', () => {
+        const onCompleteMock = vi.fn();
+        const targetTime = new Date().getTime() + 2500; // 2.5 seconds from now
+
+        engine.controllers.countdown.startCountdown(targetTime, vi.fn(), onCompleteMock);
+
+        // Advance time by 3 seconds, which is past the end time.
+        vi.advanceTimersByTime(3000);
+
+        // The onComplete callback should have been called exactly once.
+        expect(onCompleteMock).toHaveBeenCalledTimes(1);
+    });
+
+    test('should stop the timer when the stop method is called', () => {
+        const onUpdateMock = vi.fn();
+        const targetTime = new Date().getTime() + 5000; // 5 seconds from now
+
+        const timerControl = engine.controllers.countdown.startCountdown(targetTime, onUpdateMock, vi.fn());
+
+        // Advance time by 2 seconds. The onUpdate callback should be called twice.
+        vi.advanceTimersByTime(2000);
+        expect(onUpdateMock).toHaveBeenCalledTimes(2);
+
+        // Manually stop the timer.
+        timerControl.stop();
+
+        // Advance time by another 3 seconds. No more updates should occur.
+        vi.advanceTimersByTime(3000);
+        expect(onUpdateMock).toHaveBeenCalledTimes(2);
+    });
+
+    test('should not call onComplete when the timer is stopped manually', () => {
+        const onCompleteMock = vi.fn();
+        const targetTime = new Date().getTime() + 5000;
+
+        const timerControl = engine.controllers.countdown.startCountdown(targetTime, vi.fn(), onCompleteMock);
+
+        // Manually stop the timer before it completes.
+        timerControl.stop();
+
+        // Advance time past the original end time.
+        vi.advanceTimersByTime(5000);
+
+        // The onComplete callback should not have been called.
+        expect(onCompleteMock).not.toHaveBeenCalled();
+    });
+
+})
