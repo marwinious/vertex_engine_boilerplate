@@ -1,21 +1,22 @@
 {
-  "name": "vertex_engine_boilerplate",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest",
-    "testui": "vitest --ui"
-  },
-  "devDependencies": {
-    "@vitest/ui": "^4.0.6",
-    "vite": "^7.1.12",
-    "vitest": "^4.0.6"
-  },
-  "dependencies": {
-    "js_engine_boilerplate": "file:../js_engine_boilerplate"
-  }
+    "name": "vertex_engine_boilerplate",
+    "private": true,
+    "version": "2.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "test": "vitest",
+        "testui": "vitest --ui"
+    },
+    "devDependencies": {
+        "@vitest/ui": "^5.1.1",
+        "vite": "^8.3.8",
+        "vitest": "^5.1.1"
+    },
+    "dependencies": {
+        "vertex_engine": "github:marwinious/vertex_engine#v2.0.1"
+    },
+    "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90"
 }
